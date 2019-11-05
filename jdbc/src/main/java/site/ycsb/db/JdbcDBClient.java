@@ -327,7 +327,8 @@ public class JdbcDBClient extends DB {
       if (readStatement == null) {
         readStatement = createAndCacheReadStatement(type, key);
       }
-      readStatement.setString(1, key);
+      //readStatement.setString(1, key);
+      readStatement.setInt(1, Integer.parseInt(key));
       ResultSet resultSet = readStatement.executeQuery();
       if (!resultSet.next()) {
         resultSet.close();
@@ -357,10 +358,14 @@ public class JdbcDBClient extends DB {
         scanStatement = createAndCacheScanStatement(type, startKey);
       }
       if (sqlserver) {
+        //scanStatement.setInt(1, recordcount);
+        //scanStatement.setString(2, startKey);
         scanStatement.setInt(1, recordcount);
-        scanStatement.setString(2, startKey);
+        scanStatement.setInt(2, Integer.parseInt(startKey));
       } else {
-        scanStatement.setString(1, startKey);
+        //scanStatement.setString(1, startKey);
+        //scanStatement.setInt(2, recordcount);
+        scanStatement.setInt(1, Integer.parseInt(startKey));
         scanStatement.setInt(2, recordcount);
       }
       ResultSet resultSet = scanStatement.executeQuery();
@@ -397,7 +402,8 @@ public class JdbcDBClient extends DB {
       for (String value: fieldInfo.getFieldValues()) {
         updateStatement.setString(index++, value);
       }
-      updateStatement.setString(index, key);
+      //updateStatement.setString(index, key);
+      updateStatement.setInt(index, Integer.parseInt(key));
       int result = updateStatement.executeUpdate();
       if (result == 1) {
         return Status.OK;
@@ -420,7 +426,8 @@ public class JdbcDBClient extends DB {
       if (insertStatement == null) {
         insertStatement = createAndCacheInsertStatement(type, key);
       }
-      insertStatement.setString(1, key);
+      //insertStatement.setString(1, key);
+      insertStatement.setInt(1,Integer.parseInt(key));
       int index = 2;
       for (String value: fieldInfo.getFieldValues()) {
         insertStatement.setString(index++, value);
@@ -485,7 +492,8 @@ public class JdbcDBClient extends DB {
       if (deleteStatement == null) {
         deleteStatement = createAndCacheDeleteStatement(type, key);
       }
-      deleteStatement.setString(1, key);
+      //deleteStatement.setString(1, key);
+      deleteStatement.setInt(1, Integer.parseInt(key));
       int result = deleteStatement.executeUpdate();
       if (result == 1) {
         return Status.OK;
